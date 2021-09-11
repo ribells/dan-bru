@@ -16,6 +16,17 @@ define(function () {
 			this.generate = function ()
 			{
 				//generate the terrain;
+				for(y = 0; y<this.num_lat; y++) {
+				   var row = [];
+				   for(x = 0; x<this.num_lon; x++) {
+				   	  row.push(Math.random()*100);
+				   }
+				   this.height_map.push(row);
+				}
+			}
+			
+			this.visualize = function ()
+			{
 				console.log(THREE);
 				var geometry = new THREE.BufferGeometry();
 				const vertices = new Float32Array( [
@@ -38,10 +49,6 @@ define(function () {
 				var material = new THREE.MeshBasicMaterial();
 				var mesh = new THREE.Mesh(geometry, material);
 				return mesh;
-			}
-			
-			this.visualize = function ()
-			{
 			}
 			
 			this.interact = function ()
