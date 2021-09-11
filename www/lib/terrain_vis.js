@@ -10,10 +10,10 @@ define(function () {
 		Terrain: function(_x, _y, THREE)
 		{
 			this.num_lon   = _x;       // number of longitude steps
-			this.flights_title  = _y;  // number of latitude steps
+			this.num_lat  = _y;        // number of latitude steps
 			this.height_map = [];      // two-dimensional array of elevations
 
-			this.generate_terrain = function ()
+			this.generate = function ()
 			{
 				//generate the terrain;
 				console.log(THREE);
@@ -38,6 +38,14 @@ define(function () {
 				var material = new THREE.MeshBasicMaterial();
 				var mesh = new THREE.Mesh(geometry, material);
 				return mesh;
+			}
+			
+			this.visualize = function ()
+			{
+			}
+			
+			this.interact = function ()
+			{
 			}
 			
 			this.perform_analysis = function ()

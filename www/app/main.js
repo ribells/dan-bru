@@ -8,7 +8,7 @@ define(function (require) {
     var terrain = require('terrain_vis');
 
     var terrain = new terrain.Terrain (400, 300, THREE);
-    var mesh = terrain.generate_terrain();
+    var mesh = terrain.generate();
 	
     print("Application is loaded");
 });
