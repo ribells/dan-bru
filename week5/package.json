@@ -1,0 +1,31 @@
+{
+  "name": "dan-bru",
+  "version": "0.0.1",
+  "description": "Dynamic terrain experience",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "terrain",
+    "procedural",
+    "animation"
+  ],
+  "author": "DanBru Menship",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "three": "^0.132.2",
+    "express": "^4.17.1",
+    "terrain_vis": "^0.0.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ribells/dan-bru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ribells/dan-bru/issues"
+  },
+  "homepage": "https://github.com/ribells/dan-bru#readme"
+}
