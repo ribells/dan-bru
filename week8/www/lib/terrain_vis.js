@@ -14,13 +14,15 @@ define(function () {
 
 			this.particles = [];
 			const constraints = [];
+			this.VISCOSITY = 10;
 
 			const diff = new THREE.Vector3();
-			const MASS = 0.1;
-			const restDistance = 25;
+			const MASS = 0.4;
+			const restDistance = 1;
+			var   submerged = false;
 
-			const xSegs = 10;
-			const ySegs = 10;
+			const xSegs = _x;
+			const ySegs = _y;
 			
 			function plane( width, height ) {
 				return function ( u, v, target ) {
@@ -119,7 +121,7 @@ define(function () {
 				return u + v * ( this.num_lon + 1 );
 			}
 			this.index = index;
-		
+
 			this.generate = function ()
 			{
 				//generate the terrain;
@@ -154,11 +156,18 @@ define(function () {
 			
 			this.perturb = function (ball, ballSize)
 			{
-				ball.position.z -= 1;
-				if(ball.position.z < ballSize/4) {
-					ball.position.z = ballSize/4;
+				if(!submerged) {
+					ball.position.z -= 1;
+				} else {
 					ball.position.x += 6*Math.random()-3;
 					ball.position.y += 6*Math.random()-3;
+					ball.position.z += 6*Math.random()-3;
+				}
+				if(ball.position.z < ballSize/4) {
+					submerged = true;
+					ball.position.z = ballSize/4;
+				} else if(submerged && ball.position.z > ballSize*1.1) {
+					ball.position.z = ballSize*1.1;
 				}
 				
 				//update for collision with ball
@@ -172,6 +181,16 @@ define(function () {
 						diff.normalize().multiplyScalar( ballSize );
 						pos.copy( ball.position ).add( diff );
 						this.geometry.attributes.position.setXYZ( i, pos.x, pos.y, pos.z );
+					} else {
+						//elasticity based on viscosity of terrain
+						if(Math.floor(i/this.num_lon) < 300) {
+							if(pos.z < this.height_map[Math.floor(i/this.num_lon)][i % this.num_lon]) {
+								pos.z -= (pos.z - this.height_map[Math.floor(i/this.num_lon)][i % this.num_lon])/100;
+								pos.x -= (pos.x - particle.original.x)/this.VISCOSITY;
+								pos.y += (particle.original.y - pos.y)/this.VISCOSITY;
+								this.geometry.attributes.position.setXYZ( i, pos.x, pos.y, pos.z );
+							}
+						}					
 					}
 				}				
 				this.geometry.attributes.position.needsUpdate = true;

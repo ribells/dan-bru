@@ -28,7 +28,7 @@ define(function (require) {
 
 	///camera
 	camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 1, 10000 );
-	camera.position.set( 0, 1000, 200 );
+	camera.position.set( 0, -800, 600 );
 	camera.lookAt( 0, 200, 0 );
 	camera.zoom = 3;
 	scene.add( camera );
@@ -42,7 +42,17 @@ define(function (require) {
 	function render() {
 	  camera.updateProjectionMatrix();
 	  group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
+	  if(group.rotation.y > Math.PI/4) {
+		  group.rotation.y = Math.PI/4;
+	  } else if (group.rotation.y < -Math.PI/4) {
+		  group.rotation.y = -Math.PI/4;
+	  }
 	  group.position.z += ( targetTranslation );
+	  if (group.position.z < -100) {
+	  	  group.position.z = -100;
+	  } else if (group.position.z > 0) {
+	      group.position.z = 0;
+	  }
 	  
 	  if(sphere) {
 		pos = terrain.perturb(sphere, ballSize);
@@ -55,10 +65,10 @@ define(function (require) {
 	}
 
 	///lighting & shadows
-	var lightA1 = new THREE.AmbientLight(0xFF000F, 0.2);
+	var lightA1 = new THREE.AmbientLight(0xFF00FF, 0.5);
 	scene.add(lightA1);
-	var lightD1 = new THREE.DirectionalLight( 0xFF000F, 0.85 );
-	lightD1.position.set( -20, -20, 200 );
+	var lightD1 = new THREE.DirectionalLight( 0xFF00FF, 0.85 );
+	lightD1.position.set( 200, 200, 200 );
 	lightD1.castShadow = true;
 	scene.add( lightD1 );
 	renderer.shadowMap.enabled = true;
